@@ -106,13 +106,11 @@ a,a:hover{
 
 .page-wrapper{
     overflow:hidden;
-    background:#e5e5e5;
-    padding-bottom:8vh
+    background:#ffffff;
 }
 
 .page-container{
-    background:#e5e5e5;
-    padding-left:200px
+    background:#ffffff;
 }
 
 .main-content{
@@ -690,7 +688,7 @@ table.table.table-bordered{
     border:1px solid #dee2e6
 }
 table.table.table-bordered th{
-    BACKGROUND:#0da8e4;
+    BACKGROUND:rgb(253, 146, 23);
     color:#fff;
     font-size:14px;
     padding:7px
@@ -720,7 +718,8 @@ table.table.table-bordered th{
     color:#0da8e4
 }
 .detail-section{
-    margin-top:60px
+    margin-top:60px;
+    padding: 0 40rem 20rem 40rem;
 }
 .detail-img{
     width: 30%;

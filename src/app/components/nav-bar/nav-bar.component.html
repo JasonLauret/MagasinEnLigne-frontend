@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <div class="" style="width: 70px;">
+        <a href="/products">
+          <img src="assets/images/logo.png" alt="MagasinEnLigne" class="img-responsive"/>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Liste de categorie de produits -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Produits
+                </a>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let tempProductCategory of productCategories">
+                        <a routerLink="/category/{{ tempProductCategory.id }}" routerLinkActive="active-link" class="dropdown-item">{{ tempProductCategory.categoryName }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- Barre de recherche -->
+        <form class="d-flex" role="search">
+          <input #myInput type="text" (keyup.enter)="doSearch(myInput.value)" class="form-control me-2" placeholder="Rechercher un produit" aria-label="Search">
+          <button (click)="doSearch(myInput.value)" class="btn btn-secondary" type="submit">Rechercher</button>
+        </form>
+
+        <div *ngIf="isAuthenticated && userFullName" class="login-status-user-info ms-5">
+            Bienvenue {{ userFullName }} !
+        </div>
+
+        <!-- Bouton connexion -->
+        <button *ngIf="!isAuthenticated" routerLink="/login" type="button" class="btn btn-secondary ms-5">Connexion</button>
+        
+        <!-- Liste pour les commandes, l'espace menbre, l'espace admin, et la deconnexion -->
+        <div *ngIf="isAuthenticated" class="dropdown ms-5">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/order-history" href="#">Commandes</a></li>
+              <li><a class="dropdown-item" routerLink="/members">Espace membre</a></li>
+              <li><a class="dropdown-item" routerLink="/admin" href="#">Espace admin</a></li>
+              <li><a class="dropdown-item" style="color: red;" (click)="logout()">Deconnexion</a></li>
+            </ul>
+          </div>
+      </div>
+
+      <!-- Panier -->
+      <app-cart-status></app-cart-status>
+    </div>
+  </nav>

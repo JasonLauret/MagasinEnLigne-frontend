@@ -18,7 +18,7 @@
                         </td>
                         <td>
                             <div class="items">
-                                <label>Quantity:</label>
+                                <label>Quantité :</label>
                                 <div class="row no-gutters">
                                     <div class="col">
                                         <button (click)="incrementQuantity(tempCartItem)" class="btn btn-primary btn-sm">
@@ -40,17 +40,17 @@
                                 <button (click)="remove(tempCartItem)" class="btn btn-primary">Supprimer</button>
                             </div>
                             
-                            <p class="mt-2">Subtotal: {{ tempCartItem.quantity * tempCartItem.unitPrice | currency: 'EUR' }}</p>
+                            <p class="mt-2">Total: {{ tempCartItem.quantity * tempCartItem.unitPrice | currency: 'EUR' }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2"></td>
-                        <td style="font-weight: bold">
-                            <p>Quantité total: {{ totalQuantity }}</p>
+                        <td class="details" style="font-weight: bold">
+                            <p>Quantité total : {{ totalQuantity }}</p>
                             <p>Livraison gratuite</p>
-                            <p>Prix total: {{ totalPrice | currency: 'EUR' }}</p>
+                            <p>Prix total : {{ totalPrice | currency: 'EUR' }}</p>
                             <div>
-                                <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
+                                <a routerLink="/checkout" class="btn btn-primary">Vérification</a>
                             </div>
                         </td>
                     </tr>

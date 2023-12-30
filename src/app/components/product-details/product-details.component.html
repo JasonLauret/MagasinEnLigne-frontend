@@ -1,16 +1,16 @@
-<div class="detail-section">
-    <div class="container-fluid">
-
-        <img src="{{ product.imageUrl }}" class="detail-img">
-
-        <h3>{{ product.name }}</h3>
-        <div class="price">{{ product.unitPrice | currency:'USD' }}</div>
-        <button (click)="addToCart()" class="btn btn-primary btn-sm">Ajouter au panier</button>
-
-        <hr>
-        <h4>Description</h4>
-        <p>{{ product.description }}</p>
-
-        <a routerLink="/products" class="mt-5">Retour à la liste de produit</a>
+<div class="section-content section-content-p30">
+    <div class="detail-section">
+        <div class="card mb-3">
+            <img src="{{ product.imageUrl }}" class="card-img-top detail-img" style="width: 18rem;">
+            <div class="card-body">
+                <h3 class="card-title">{{ product.name }}</h3>
+                <div class="price">{{ product.unitPrice | currency:'USD' }}</div>
+                <button (click)="addToCart()" class="btn btn-primary">Ajouter au panier</button>
+                <hr>
+                <h4>Description</h4>
+                <p class="card-text">{{ product.description }}</p>
+            </div>
+        </div>
+        <button routerLink="/products" class="btn btn-primary mt-5">Retour à la liste de produit</button>
     </div>
 </div>
