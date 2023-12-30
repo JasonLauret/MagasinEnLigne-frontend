@@ -1,7 +1,11 @@
 import { FormControl, ValidationErrors } from "@angular/forms";
 
 export class MagasinEnLigneValidators {
-    // Validation des espaces
+    /**
+     * Permet de vérifier qu'il n'y a pas d'espace
+     * @param control
+     * @returns 
+     */
     static notOnlyWhitespace(control: FormControl) : ValidationErrors | null {
         // Vérifier si la chaîne contient uniquement des espaces
         if ((control.value != null) && (control.value.trim().length === 0)) {

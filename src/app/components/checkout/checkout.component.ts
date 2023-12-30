@@ -24,7 +24,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent {
-  checkoutFormGroup?: FormGroup;
+  checkoutFormGroup: FormGroup;
 
   totalPrice: number = 0;
   totalQuantity: number = 0;
@@ -39,7 +39,7 @@ export class CheckoutComponent {
 
   storage: Storage = sessionStorage;
 
-  // initialize Stripe API
+  // Initialisation de l'API stripe
   stripe = Stripe(environment.stripePublishableKey);
 
   paymentInfo: PaymentInfo = new PaymentInfo();
@@ -55,9 +55,12 @@ export class CheckoutComponent {
     private checkoutService: CheckoutService,
     private router: Router
   ) {
-
+    // Configurer le formulaire de paiement Stripe
+    this.setupStripePaymentForm();
+    // Récupération de l'e-mail dans le storage en string et on le parse pour le convertir en objet
     const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
 
+    // Création des formulaires
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -123,8 +126,6 @@ export class CheckoutComponent {
    * Initialise les détails du panier, les mois et années de la carte de crédit, et les pays.
    */
   ngOnInit(): void {
-    // Configurer le formulaire de paiement Stripe
-    // this.setupStripePaymentForm();
     // Récap détail du panier
     this.reviewCartDetails();
     // Remplir les pays
@@ -132,11 +133,6 @@ export class CheckoutComponent {
       console.log('Pays récupérés: ' + JSON.stringify(data));
       this.countries = data;
     });
-  }
-
-  ngAfterViewInit(): void {
-    // Code d'initialisation qui dépend du DOM
-    this.setupStripePaymentForm();
   }
 
   setupStripePaymentForm() {
@@ -171,26 +167,27 @@ export class CheckoutComponent {
     );
   }
 
-  get firstName() { return this.checkoutFormGroup?.get('customer.firstName'); }
-  get lastName() { return this.checkoutFormGroup?.get('customer.lastName'); }
-  get email() { return this.checkoutFormGroup?.get('customer.email'); }
+  // Permet de récupérer les valeurs des formaulaires
+  get firstName() { return this.checkoutFormGroup.get('customer.firstName'); }
+  get lastName() { return this.checkoutFormGroup.get('customer.lastName'); }
+  get email() { return this.checkoutFormGroup.get('customer.email'); }
 
-  get shippingAddressStreet() { return this.checkoutFormGroup?.get('shippingAddress.street'); }
-  get shippingAddressCity() { return this.checkoutFormGroup?.get('shippingAddress.city'); }
-  get shippingAddressState() { return this.checkoutFormGroup?.get('shippingAddress.state'); }
-  get shippingAddressZipCode() { return this.checkoutFormGroup?.get('shippingAddress.zipCode'); }
-  get shippingAddressCountry() { return this.checkoutFormGroup?.get('shippingAddress.country'); }
+  get shippingAddressStreet() { return this.checkoutFormGroup.get('shippingAddress.street'); }
+  get shippingAddressCity() { return this.checkoutFormGroup.get('shippingAddress.city'); }
+  get shippingAddressState() { return this.checkoutFormGroup.get('shippingAddress.state'); }
+  get shippingAddressZipCode() { return this.checkoutFormGroup.get('shippingAddress.zipCode'); }
+  get shippingAddressCountry() { return this.checkoutFormGroup.get('shippingAddress.country'); }
 
-  get billingAddressStreet() { return this.checkoutFormGroup?.get('billingAddress.street'); }
-  get billingAddressCity() { return this.checkoutFormGroup?.get('billingAddress.city'); }
-  get billingAddressState() { return this.checkoutFormGroup?.get('billingAddress.state'); }
-  get billingAddressZipCode() { return this.checkoutFormGroup?.get('billingAddress.zipCode'); }
-  get billingAddressCountry() { return this.checkoutFormGroup?.get('billingAddress.country'); }
+  get billingAddressStreet() { return this.checkoutFormGroup.get('billingAddress.street'); }
+  get billingAddressCity() { return this.checkoutFormGroup.get('billingAddress.city'); }
+  get billingAddressState() { return this.checkoutFormGroup.get('billingAddress.state'); }
+  get billingAddressZipCode() { return this.checkoutFormGroup.get('billingAddress.zipCode'); }
+  get billingAddressCountry() { return this.checkoutFormGroup.get('billingAddress.country'); }
 
-  get creditCardType() { return this.checkoutFormGroup?.get('creditCard.cardType'); }
-  get creditCardNameOnCard() { return this.checkoutFormGroup?.get('creditCard.nameOnCard'); }
-  get creditCardNumber() { return this.checkoutFormGroup?.get('creditCard.cardNumber'); }
-  get creditCardSecurityCode() { return this.checkoutFormGroup?.get('creditCard.securityCode'); }
+  get creditCardType() { return this.checkoutFormGroup.get('creditCard.cardType'); }
+  get creditCardNameOnCard() { return this.checkoutFormGroup.get('creditCard.nameOnCard'); }
+  get creditCardNumber() { return this.checkoutFormGroup.get('creditCard.cardNumber'); }
+  get creditCardSecurityCode() { return this.checkoutFormGroup.get('creditCard.securityCode'); }
 
 
   /**
@@ -199,12 +196,12 @@ export class CheckoutComponent {
   copyShippingAddressToBillingAddress(event: any) {
     if (this.checkoutFormGroup) {
       if (event.target.checked) {
-        this.checkoutFormGroup?.controls['billingAddress'].setValue(
-          this.checkoutFormGroup?.controls['shippingAddress'].value
+        this.checkoutFormGroup.controls['billingAddress'].setValue(
+          this.checkoutFormGroup.controls['shippingAddress'].value
         );
         this.billingAddressStates = this.shippingAddressStates;
       } else {
-        this.checkoutFormGroup?.controls['billingAddress'].reset();
+        this.checkoutFormGroup.controls['billingAddress'].reset();
         this.billingAddressStates = [];
       }
     }
@@ -214,8 +211,8 @@ export class CheckoutComponent {
    * Permet de soumettre le formulaire. Effectue la création de la commande et l'appel à l'API REST pour enregistrer la commande en base.
    */
   onSubmit() {
-    if (this.checkoutFormGroup?.invalid) {
-      this.checkoutFormGroup?.markAllAsTouched();
+    if (this.checkoutFormGroup.invalid) {
+      this.checkoutFormGroup.markAllAsTouched();
       return;
     }
     // Créer la commande
@@ -229,20 +226,20 @@ export class CheckoutComponent {
     // Instancié l'achat
     let purchase = new Purchase();
     // Remplir l'achat avec le client
-    purchase.customer = this.checkoutFormGroup?.controls['customer'].value;
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
     // Remplir l'achat avec l'adresse de livraison
     purchase.shippingAddress =
-      this.checkoutFormGroup?.controls['shippingAddress'].value;
+      this.checkoutFormGroup.controls['shippingAddress'].value;
     if (purchase.shippingAddress) {
-      purchase.shippingAddress.state = this.checkoutFormGroup?.get('shippingAddress.state')?.value.name;
-      purchase.shippingAddress.country = this.checkoutFormGroup?.get('shippingAddress.country')?.value.name;
+      purchase.shippingAddress.state = this.checkoutFormGroup.get('shippingAddress.state')?.value.name;
+      purchase.shippingAddress.country = this.checkoutFormGroup.get('shippingAddress.country')?.value.name;
     }
     // Remplir l'achat avec l'adresse de facturation
     purchase.billingAddress =
-      this.checkoutFormGroup?.controls['billingAddress'].value;
+      this.checkoutFormGroup.controls['billingAddress'].value;
     if (purchase.billingAddress) {
-      purchase.billingAddress.state = this.checkoutFormGroup?.get('billingAddress.state')?.value.name;
-      purchase.billingAddress.country = this.checkoutFormGroup?.get('billingAddress.country')?.value.name;
+      purchase.billingAddress.state = this.checkoutFormGroup.get('billingAddress.state')?.value.name;
+      purchase.billingAddress.country = this.checkoutFormGroup.get('billingAddress.country')?.value.name;
     }
     // Remplir l'achat avec la commande et les articles de commande
     purchase.order = order;
@@ -254,17 +251,20 @@ export class CheckoutComponent {
     this.paymentInfo.currency = "EUR"; 
     this.paymentInfo.receiptEmail = purchase.customer.email;
 
-    // if valid form then
-    // - create payment intent
-    // - confirm card payment
-    // - place order
-
-    if (!this.checkoutFormGroup?.invalid && this.displayError.textContent === "") {
-
+    // Si le form est valide
+    if (!this.checkoutFormGroup.invalid && this.displayError.textContent === "") {
+      // On active le bouton
       this.isDisabled = true;
 
+      // On créer le paymentIntent
+
+      // Appel de la méthode createPaymentIntent pour communiquer avec le backend via une adresse exposée par l'API
+      // Les informations de paiement, telles que le prix, la devise et l'adresse e-mail du client, y sont incluses. 
+      // Cela initiera un flux de données sur lequel nous nous abonnerons pour récupérer la réponse lorsque celle-ci sera reçue de l'API. 
+      // Le backend transmettant les infos de paiement à Stripe. Stripe renverra un code secret au backend, qui à son tour nous transmettra ce code.
       this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe(
         (paymentIntentResponse) => {
+          // Une fois le code secret reçu, on va envoyer les données confidentielles de paiement à stripe avec le code secret
           this.stripe.confirmCardPayment(paymentIntentResponse.client_secret,
             {
               payment_method: {
@@ -282,17 +282,17 @@ export class CheckoutComponent {
                 }
               }
             }, { handleActions: false })
+            // lorsque la réponse est reçu
           .then((result: any) => {
             if (result.error) {
-              // Informer le client qu'il y a eu une erreur
-              alert(`There was an error: ${result.error.message}`);
+              // Afficher l'erreur
+              alert(`Une erreur est survenue: ${result.error.message}`);
               this.isDisabled = false;
             } else {
-              // Appeler l'API REST via le CheckoutService
+              // Appeler l'API REST via le CheckoutService, en passant l'achat en paramètre afin quel soit traité en backend
               this.checkoutService.placeOrder(purchase).subscribe({
                 next: response => {
-                  alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
-
+                  alert(`Votre commande a bien été reçue.\nNuméro de suivi de commande: ${response.orderTrackingNumber}`);
                   // Réinitialiser le panier
                   this.resetCart();
                   this.isDisabled = false;
@@ -307,7 +307,7 @@ export class CheckoutComponent {
         }
       );
     } else {
-      this.checkoutFormGroup?.markAllAsTouched();
+      this.checkoutFormGroup.markAllAsTouched();
       return;
     }
 
@@ -323,7 +323,7 @@ export class CheckoutComponent {
     this.cartService.totalQuantity.next(0);
     this.cartService.persistCartItems();
     // Réinitialiser le formulaire
-    this.checkoutFormGroup?.reset();
+    this.checkoutFormGroup.reset();
     // Revenir à la page des produits
     this.router.navigateByUrl("/products");
   }
@@ -332,7 +332,7 @@ export class CheckoutComponent {
    * Gère la mise à jour des mois de la carte de crédit en fonction de l'année sélectionnée.
    */
   handleMonthsAndYears() {
-    const creditCardFormGroup = this.checkoutFormGroup?.get('creditCard');
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
     const currentYear: number = new Date().getFullYear();
     const selectedYear: number = Number(
       creditCardFormGroup?.value.expirationYear
@@ -357,7 +357,7 @@ export class CheckoutComponent {
    * @param formGroupName - Nom du groupe de formulaire ('shippingAddress' ou 'billingAddress').
    */
   getStates(formGroupName: string) {
-    const formGroup = this.checkoutFormGroup?.get(formGroupName);
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
     if (formGroup) {
       const countryCode = formGroup.value.country.code;
       this.magasinEnLigneService.getStates(countryCode).subscribe((data) => {

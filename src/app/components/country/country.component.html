@@ -1,7 +1,12 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
     <div class="container-fluid">
-      <h3>Liste des pays</h3>
+      <div class="d-flex">
+        <h3>Liste des pays</h3>
+        <!-- Bouton pour ajouter un nouveau pays -->
+        <button class="btn btn-success ms-5" routerLink="/admin/form-country">Ajouter un pays</button>
+    </div>
+      
 
       <div class="mt-4">
         <table class="table table-striped">
@@ -28,8 +33,7 @@
           </tbody>
         </table>
 
-        <!-- Bouton pour ajouter un nouveau pays -->
-        <button class="btn btn-success" routerLink="/admin/form-country">Ajouter un pays</button>
+        
       </div>
     </div>
   </div>

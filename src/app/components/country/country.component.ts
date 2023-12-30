@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Country } from 'src/app/common/country';
-import { CountryService } from 'src/app/country-service.service';
+import { CountryService } from 'src/app/services/country-service.service';
 
 @Component({
   selector: 'app-country',
@@ -26,10 +26,8 @@ export class CountryComponent implements OnInit {
       this.countryService.deleteCountry(countryId).subscribe({
         next: () => {
           const index = this.countries.findIndex(
-
             (country) => country.id === countryId
           );
-
           // Si l'index est trouvé (différent de -1), on supprime l'élément du tableau
           if (index !== -1) {
             this.countries.splice(index, 1);

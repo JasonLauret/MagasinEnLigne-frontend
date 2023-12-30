@@ -32,7 +32,7 @@ export class LoginComponent {
     this.oktaSignin.remove();
 
     this.oktaSignin.renderEl({
-      el: '#okta-sign-in-widget'}, // this name should be same as div tag id in login.component.html
+      el: '#okta-sign-in-widget'}, // ce nom doit être le même que l'identifiant de la balise div dans login.component.html
       (response: any) => {
         if (response.status === 'SUCCESS') {
           this.oktaAuth.signInWithRedirect();

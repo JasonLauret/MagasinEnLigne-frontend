@@ -12,7 +12,6 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class NavBarComponent {
 
-
   productCategories: ProductCategory[] = [];
   isAuthenticated: boolean = false;
   userFullName: string = '';
@@ -56,7 +55,7 @@ export class NavBarComponent {
   // Récupération des détails de l'utilisateur connecté
   getUserDetails() {
     if (this.isAuthenticated) {
-      // le nom complet de l'utilisateur est exposé en tant que nom de propriété
+      // Le nom complet de l'utilisateur est exposé en tant que nom de propriété
       this.oktaAuth.getUser().then(
         (res) => {
           this.userFullName = res.name as string;

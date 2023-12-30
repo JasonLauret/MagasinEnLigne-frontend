@@ -2,7 +2,7 @@
     <div class="section-content section-content-p30">
       <div *ngIf="countryForm" class="container-fluid">
         <div>
-          <button routerLink="/country" type="submit" class="btn btn-info mb-5">
+          <button routerLink="/country" type="submit" class="btn btn-primary mb-5">
             Retour
           </button>
         </div>
@@ -28,14 +28,16 @@
                         code?.errors?.['notOnlyWhitespace']
                       "
                   >
-                    Code is required
+                    Le code est requis
                   </div>
   
                   <div *ngIf="code?.errors?.['minlength']">
-                    Code must be at least 2 characters long
+                    Le code doit comporter au moins 2 caractères
                   </div>
   
-                  <div *ngIf="code?.errors?.['maxlength']">2 caractères max</div>
+                  <div *ngIf="code?.errors?.['maxlength']">
+                    Le code doit comporter au maximum 2 caractères
+                  </div>
                 </div>
               </div>
             </div>
@@ -56,11 +58,11 @@
                         name?.errors?.['notOnlyWhitespace']
                       "
                     >
-                      Name is required
+                      Le nom est requis
                     </div>
   
                     <div *ngIf="name?.errors?.['minlength']">
-                      Name must be at least 2 characters long
+                      Le nom doit comporter au moins 2 caractères
                     </div>
                   </div>
                 </div>
@@ -69,7 +71,7 @@
           </div>
   
           <div class="text-center">
-            <button type="submit" class="btn btn-info">
+            <button type="submit" class="btn btn-primary">
               {{ codeCountryToUpdate ? "Modifier" : "Ajouter" }}
             </button>
           </div>

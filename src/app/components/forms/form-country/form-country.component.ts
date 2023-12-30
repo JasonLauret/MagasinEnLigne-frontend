@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Country } from 'src/app/common/country';
-import { CountryService } from 'src/app/country-service.service';
+import { CountryService } from 'src/app/services/country-service.service';
 import { MagasinEnLigneValidators } from 'src/app/validators/magasin-en-ligne-validators';
 
 @Component({
@@ -11,7 +11,7 @@ import { MagasinEnLigneValidators } from 'src/app/validators/magasin-en-ligne-va
   styleUrls: ['./form-country.component.css']
 })
 export class FormCountryComponent implements OnInit {
-  countryForm: FormGroup | undefined; // Formulaire de checkout
+  countryForm: FormGroup | undefined;
   country: Country | undefined;
   codeCountryToUpdate: string | null = '';
 

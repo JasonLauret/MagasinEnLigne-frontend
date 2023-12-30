@@ -52,12 +52,18 @@ export class MagasinEnLigneService {
   }
 }
 
+/**
+ * Permet de mapper les données recu de l'api directement avec notre modèle (ici Country)
+ */
 interface GetResponseCountries {
   _embedded: {
     countries: Country[];
   }
 }
 
+/**
+ * Permet de mapper les données recu de l'api directement avec notre modèle (ici State)
+ */
 interface GetResponseStates {
   _embedded: {
     states: State[];

@@ -25,7 +25,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   handleProductDetails() {
-    // Obtenir le paramètre string "id" et le convertir en nombre en utilisant le symbole "+"
+    // Récupérer le paramètre string "id" de l'URL et le convertir en nombre en utilisant le symbole "+"
     const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
     this.productService.getProduct(theProductId).subscribe(
       data => {
@@ -34,8 +34,10 @@ export class ProductDetailsComponent implements OnInit {
     )
   }
 
+  /**
+   * Permet d'ajouter un produit au panier
+   */
   addToCart() {
-    console.log(`Ajout au panier ${this.product.name}, ${this.product.unitPrice}`);
     const theCartItem = new CartItem(this.product);
     this.cartService.addToCart(theCartItem);
   }

@@ -18,24 +18,19 @@ export class AuthInterceptorService implements HttpInterceptor {
   }
 
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-
-    // Only add an access token for secured endpoints
+    // Ajoutez un jeton d'accès uniquement sur les points de terminaison sécurisés
     const theEndPoint = environment.magasinEnLigneApiUrl + "/orders";
     const securedEndpoints = [theEndPoint];
-
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
-
-      // get access token
+      // Obtenir un jeton d'accès
       const accessToken = this.oktaAuth.getAccessToken();
-
-      // clone the request and add new header with access token
+      // Clonez la demande et ajoutez un nouvel en-tête avec un jeton d'accès
       request = request.clone({
         setHeaders: {
           Authorization: 'Bearer ' + accessToken
         }
       });
     }
-
     return await lastValueFrom(next.handle(request));
   }
 }
