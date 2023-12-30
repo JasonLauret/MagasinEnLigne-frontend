@@ -5,7 +5,9 @@ import { OrderItem } from './order-item';
 
 export class Purchase {
     customer!: Customer;
+    // Livraison
     shippingAddress!: Address;
+    // Facturation
     billingAddress!: Address;
     order!: Order;
     orderItems!: OrderItem[]; 

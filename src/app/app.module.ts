@@ -3,7 +3,7 @@ import { Injector, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 import { Routes, RouterModule, Router} from '@angular/router';
@@ -23,6 +23,10 @@ import { OktaAuth } from '@okta/okta-auth-js';
 import myAppConfig from './config/my-app-config';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { AdminComponent } from './components/admin/admin.component';
+import { CountryComponent } from './components/country/country.component';
+import { FormCountryComponent } from './components/forms/form-country/form-country.component';
 
 const oktaAuth = new OktaAuth(myAppConfig.oidc);
 
@@ -34,6 +38,11 @@ function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector) {
 }
 
 const routes: Routes = [
+  { path: 'admin/form-country/:code', component: FormCountryComponent }, // Route pour afficher le form de modif de country
+  { path: 'admin/form-country', component: FormCountryComponent }, // Route pour afficher le form d'ajout de country
+  { path: 'admin', component: AdminComponent }, // Route pour afficher la page Admin
+  { path: 'country', component: CountryComponent }, // Route pour afficher la page de CRUD pour les pays
+  
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [OktaAuthGuard],
    data: {onAuthRequired: sendToLoginPage} },
 
@@ -67,17 +76,20 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    FormCountryComponent,
+    AdminComponent,
+    CountryComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule, // HttpClient permet de réaliser des requêtes http
     NgbModule,
     ReactiveFormsModule,
     OktaAuthModule
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth }}],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth }}, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -26,7 +26,7 @@ export class LoginComponent {
         scopes: myAppConfig.oidc.scopes
       }
     });
-   }
+  }
 
   ngOnInit(): void {
     this.oktaSignin.remove();

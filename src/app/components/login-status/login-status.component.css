@@ -44,3 +44,53 @@
     -moz-transition:all .5s ease;
     transition:all .5s ease
 }
+
+
+/*******************
+*     DROPDOWN     *
+********************/
+/* Style du dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Style du bouton principal */
+  .dropbtn {
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Style du contenu du dropdown (caché par défaut) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Style des liens dans le dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+  
+  /* Change la couleur du lien au survol */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Affiche le dropdown au survol du bouton */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+/***************************************************************/
