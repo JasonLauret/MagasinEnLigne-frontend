@@ -6,12 +6,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-
   cartItems: CartItem[] = [];
-
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
-
   storage: Storage = localStorage;
 
   constructor() {
@@ -19,11 +16,15 @@ export class CartService {
     let data = JSON.parse(this.storage.getItem('cartItems')!);
     if (data != null) {
       this.cartItems = data;
-      // Calculer les totaux en fonction des données lues, du stockage
+      // Calculer les totaux en fonction des données lues du local storage
       this.computeCartTotals();
     }
   }
 
+  /**
+   * Permet d'ajouter un article au panier
+   * @param theCartItem
+   */
   addToCart(theCartItem: CartItem) {
     // Vérifiez si il y a déjà des articles dans le panier
     let alreadyExistsInCart: boolean = false;
@@ -46,9 +47,13 @@ export class CartService {
     this.computeCartTotals();
   }
 
+  /**
+   * Permet de calculer le prix total et la quantité totale des articles dans le panier.
+   */
   computeCartTotals() {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
+    // Parcours du tableau des articles du panier pour accumuler les coûts et les quantités
     for (let currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
@@ -57,28 +62,37 @@ export class CartService {
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
 
-    // Enregistrer les données du panier
+    // Persiter les données mis à jour dans le local storage
     this.persistCartItems();
   }
   
+  /**
+   * Permet de persiter cartItems dans le local storage
+   */
   persistCartItems() {
     this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
 
+  /**
+   * Permet de diminuer la quantité d'un article dans le panier
+   * @param theCartItem 
+   */
   decrementQuantity(theCartItem: CartItem) {
     theCartItem.quantity--;
     if (theCartItem.quantity === 0) {
       this.remove(theCartItem);
     }
-    else {
-      this.computeCartTotals();
-    }
+    this.computeCartTotals();
   }
 
+  /**
+   * Permet de supprimer un article du panier
+   * @param theCartItem 
+   */
   remove(theCartItem: CartItem) {
-    // Récupère l'index de l'élément dans le tableau
+    // Récupère l'index de l'élément dans le tableau. S'il n'est pas trouvé la méthode findIndex renvoie -1
     const itemIndex = this.cartItems.findIndex( tempCartItem => tempCartItem.id === theCartItem.id );
-    // S'il est trouvé, supprime l'élément du tableau à l'index donné
+    // Si findIndex ne revoie pas -1, on supprime l'élément du tableau à l'index donné.
     if (itemIndex > -1) {
       this.cartItems.splice(itemIndex, 1);
       this.computeCartTotals();

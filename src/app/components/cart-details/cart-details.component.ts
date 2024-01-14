@@ -21,12 +21,12 @@ export class CartDetailsComponent {
   listCartDetails() {
     // Récupérer les articles du panier
     this.cartItems = this.cartService.cartItems;
-    // S'abonner à totalPrice de cartService
+    // S'abonner à totalPrice de cartService pour récupérer le prix total du panier
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
     );
-    // S'abonner à totalQuantity de cartService
-    this.cartService.totalQuantity.subscribe( 
+    // S'abonner à totalQuantity de cartService pour récupérer la quantiter total du panier
+    this.cartService.totalQuantity.subscribe(
       data => this.totalQuantity = data
     );
     // Calculer le prix total et la quantité du panier

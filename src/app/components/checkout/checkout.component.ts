@@ -314,7 +314,7 @@ export class CheckoutComponent {
   }
 
   /**
-   * Permet e réinitialiser le panier et le formulaire puis redirige vers la page des produits.
+   * Permet de réinitialiser le panier et le formulaire puis redirige vers la page des produits.
    */
   resetCart() {
     // Réinitialiser les données du panier
