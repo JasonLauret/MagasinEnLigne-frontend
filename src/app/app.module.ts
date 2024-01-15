@@ -22,9 +22,11 @@ import { MembersPageComponent } from './components/members-page/members-page.com
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { AdminComponent } from './components/admin/admin.component';
-import { CountryComponent } from './components/country/country.component';
-import { FormCountryComponent } from './components/forms/form-country/form-country.component';
+import { CountryComponent } from './components/admin/country/country.component';
+import { FormCountryComponent } from './components/admin/forms/form-country/form-country.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { StateComponent } from './components/admin/state/state.component';
+import { FormStateComponent } from './components/admin/forms/form-state/form-state.component';
 
 const oktaAuth = new OktaAuth(myAppConfig.oidc);
 
@@ -38,8 +40,12 @@ function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector) {
 const routes: Routes = [
   { path: 'admin/form-country/:code', component: FormCountryComponent }, // Formulaire modif de country
   { path: 'admin/form-country', component: FormCountryComponent }, // Formulaire modif de country
+  { path: 'admin/form-state/:id', component: FormStateComponent }, // Formulaire modif de country
+  { path: 'admin/form-state', component: FormStateComponent }, // Formulaire modif de country
   { path: 'admin', component: AdminComponent }, // Route page Admin
   { path: 'country', component: CountryComponent }, // Affiche la liste des pays
+  { path: 'state', component: StateComponent }, // Affiche la liste des état
+
   
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [OktaAuthGuard], // Affiche la liste des commandes, accès aux personnes connecté (grace au guard)
    data: {onAuthRequired: sendToLoginPage} },
@@ -75,7 +81,9 @@ const routes: Routes = [
     FormCountryComponent,
     AdminComponent,
     CountryComponent,
-    NavBarComponent
+    NavBarComponent,
+    StateComponent,
+    FormStateComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

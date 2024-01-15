@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -23,7 +23,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   checkoutFormGroup: FormGroup;
 
   totalPrice: number = 0;
@@ -55,8 +55,6 @@ export class CheckoutComponent {
     private checkoutService: CheckoutService,
     private router: Router
   ) {
-    // Configurer le formulaire de paiement Stripe
-    this.setupStripePaymentForm();
     // Récupération de l'e-mail dans le storage en string et on le parse pour le convertir en objet
     const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
 
@@ -133,6 +131,11 @@ export class CheckoutComponent {
       console.log('Pays récupérés: ' + JSON.stringify(data));
       this.countries = data;
     });
+  }
+
+  ngAfterViewInit(){
+    // Configurer le formulaire de paiement Stripe
+    this.setupStripePaymentForm();
   }
 
   setupStripePaymentForm() {

@@ -1,0 +1,41 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+      <div class="container-fluid">
+        <button class="btn btn-primary mb-5" routerLink="/admin">
+          Retour
+        </button>
+        <div class="d-flex">
+          <h3>Liste des état</h3>
+          <!-- Bouton pour ajouter un nouvel état -->
+          <button class="btn btn-success ms-5" routerLink="/admin/form-state">Ajouter un état</button>
+        </div>
+    
+        <div class="mt-4">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Pays</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Boucle pour afficher les etats -->
+              <tr *ngFor="let state of states">
+                <td>{{ state.id }}</td>
+                <td>{{ state.name }}</td>
+                <td>{{ state.country.name }}</td>
+                <td>
+                  <!-- Boutons pour modifier et supprimer -->
+                  <button class="btn btn-warning me-2" [routerLink]="'/admin/form-state/' + state.id">Modifier</button>
+                  <button class="btn btn-danger" (click)="deleteState(state.id)">Supprimer</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>

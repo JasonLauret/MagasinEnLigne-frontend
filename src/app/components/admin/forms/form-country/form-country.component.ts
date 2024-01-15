@@ -82,11 +82,6 @@ export class FormCountryComponent implements OnInit {
     }
   }
 
-  get code() {
-    return this.countryForm?.get('code');
-  }
-
-  get name() {
-    return this.countryForm?.get('name');
-  }
+  get code() { return this.countryForm?.get('code'); }
+  get name() { return this.countryForm?.get('name'); }
 }
