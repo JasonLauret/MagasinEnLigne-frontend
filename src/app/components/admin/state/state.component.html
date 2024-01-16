@@ -9,7 +9,16 @@
           <!-- Bouton pour ajouter un nouvel état -->
           <button class="btn btn-success ms-5" routerLink="/admin/form-state">Ajouter un état</button>
         </div>
-    
+
+        <div class="col-2 mt-3">
+          <label for=""></label>
+          <select id="" class="form-select" (change)="filterByCountry($event)">
+            <option value="" selected>Tout les états</option>
+            <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+          </select>
+        </div>
+        
+
         <div class="mt-4">
           <table class="table table-striped">
             <thead>
@@ -25,7 +34,7 @@
               <tr *ngFor="let state of states">
                 <td>{{ state.id }}</td>
                 <td>{{ state.name }}</td>
-                <td>{{ state.country.name }}</td>
+                <!----> <td>{{ state.country.name }}</td>
                 <td>
                   <!-- Boutons pour modifier et supprimer -->
                   <button class="btn btn-warning me-2" [routerLink]="'/admin/form-state/' + state.id">Modifier</button>

@@ -5,7 +5,7 @@
         <button routerLink="/state" class="btn btn-primary mb-5">Retour</button>
       </div>
       <h3 class="mb-5">
-        {{ idStateToUpdate ? "Modifier" : "Ajouter" }} un état
+        {{ getIdStatedToUpdate ? "Modifier" : "Ajouter" }} un état
       </h3>
 
       <form [formGroup]="stateForm" (ngSubmit)="onSubmit()">
@@ -73,7 +73,7 @@
 
         <div class="text-center">
           <button type="submit" class="btn btn-primary">
-            {{ idStateToUpdate ? "Modifier" : "Ajouter" }}
+            {{ getIdStatedToUpdate ? "Modifier" : "Ajouter" }}
           </button>
         </div>
       </form>

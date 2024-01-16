@@ -16,7 +16,7 @@ export class FormStateComponent implements OnInit {
 
   stateForm: FormGroup | undefined;
   state: State | undefined;
-  idStateToUpdate!: number;
+  getIdStatedToUpdate!: number;
   countries: Country[] = [];
   messageErreur: string = '';
   
@@ -39,7 +39,6 @@ export class FormStateComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(2),
-          MagasinEnLigneValidators.notOnlyWhitespace,
         ],
       ],
       country: [
@@ -47,17 +46,24 @@ export class FormStateComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(2),
-          MagasinEnLigneValidators.notOnlyWhitespace,
         ],
       ],
     });
 
-    this.idStateToUpdate = +this.route.snapshot.paramMap.get('id')!;
-    if (this.idStateToUpdate) {
-      this.stateService.getState(this.idStateToUpdate).subscribe({
+    this.getIdStatedToUpdate = +this.route.snapshot.paramMap.get('id')!;
+    if (this.getIdStatedToUpdate) {
+      this.stateService.getState(this.getIdStatedToUpdate).subscribe({
         next: (response) => {
           this.state = response;
-          this.stateForm?.patchValue(response);
+          const selectedCountry = this.countries.find(
+            (country) => country.name === this.state?.country.name
+          );
+          this.stateForm?.patchValue(
+            {
+              name: this.state.name,
+              country: selectedCountry
+            }
+          );
         },
         error: (err) => console.error(err),
       });
@@ -65,12 +71,8 @@ export class FormStateComponent implements OnInit {
   }
   
   onSubmit() {
-    if (this.stateForm?.valid) {
-      console.log('test');
-      
-      if (!this.idStateToUpdate) {
-        console.log("this.stateForm.value : ", this.stateForm.value);
-        
+    if (this.stateForm?.valid) {      
+      if (!this.getIdStatedToUpdate) {        
         this.stateService.addState(this.stateForm.value).subscribe({
           next: () => {
             this.router.navigateByUrl('/state');
@@ -81,13 +83,16 @@ export class FormStateComponent implements OnInit {
         });
       } else {
         if (this.state?.id) {
+          console.log("this.stateForm.value : ", this.stateForm.value);
+          console.log("this.state.id : ", this.state.id);
+          
           this.stateService
             .updateState(this.state.id, this.stateForm.value)
             .subscribe({
               next: () => {
                 this.router.navigateByUrl('/state');
               },
-              error: (err) => console.error(err),
+              error: (err) => this.messageErreur = err.message,
             });
         }
       }

@@ -22,6 +22,14 @@ export class StateService {
   }
 
   /**
+   * Récuperation des état par un code
+   * @returns liste d'état
+   */
+  getByCountryCode(code: string): Observable<State[]> {
+    return this.httpClient.get<State[]>(this.baseUrl + '/byCountryCode/' + code);
+  }
+
+  /**
    * Récuperation d'un état via son id
    * @param id de l'état à récupérer
    * @returns un état
@@ -47,8 +55,8 @@ export class StateService {
    * @param updatedEtat données de l'état modifier
    * @returns 
    */
-  updateState(id: number, updatedEtat: any): Observable<any> {
-    return this.httpClient.put<any>(
+  updateState(id: number, updatedEtat: State): Observable<any> {
+    return this.httpClient.put<State>(
       `${this.baseUrl}/update/${id}`,
       updatedEtat
     );
